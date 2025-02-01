@@ -113,14 +113,12 @@ function displayPerformanceData(url, data) {
     document.getElementById('device').textContent = device;
 
     updateUIIndicators(loadTime, domLoadTime, renderTime, fcp, lcp, cls);
-    updateCLSLabel(cls);
 }
 
 function updateUIIndicators(loadTime, domLoadTime, renderTime, fcp, lcp, cls) {
     const loadTimeBar = document.getElementById('loadTimeBar');
     const domLoadTimeBar = document.getElementById('domLoadTimeBar');
     const renderTimeBar = document.getElementById('renderTimeBar');
-    const clsBar = document.getElementById('clsBar');
 
     if (loadTimeBar) {
         loadTimeBar.style.width = `${Math.min(loadTime / 1000 * 100, 100)}%`;
@@ -130,28 +128,6 @@ function updateUIIndicators(loadTime, domLoadTime, renderTime, fcp, lcp, cls) {
     }
     if (renderTimeBar) {
         renderTimeBar.style.width = `${Math.min(renderTime / 1000 * 100, 100)}%`;
-    }
-    if (clsBar) {
-        clsBar.style.width = `${Math.min(cls * 100, 100)}%`;
-        clsBar.style.backgroundColor = cls > 0.25 ? 'red' : cls > 0.1 ? 'orange' : 'green';
-    } else {
-        console.error("Element 'clsBar' nicht gefunden");
-    }
-}
-
-function updateCLSLabel(cls) {
-    const clsLabel = document.getElementById('clsLabel');
-    if (!clsLabel) {
-        console.error("Element 'clsLabel' nicht gefunden");
-        return;
-    }
-
-    if (cls > 0.25) {
-        clsLabel.textContent = "Schlecht: Hohe Layoutverschiebung";
-    } else if (cls > 0.1) {
-        clsLabel.textContent = "Optimierbar: Moderate Verschiebung";
-    } else {
-        clsLabel.textContent = "Gut: Wenige oder keine Verschiebungen";
     }
 }
 

@@ -7,16 +7,17 @@ function loadScript(scriptPath) {
 
         document.head.appendChild(script);
 
-        script.onload = function () {
-            console.log(`${scriptPath} wurde erfolgreich geladen.`);
-        };
+        // script.onload = function () {
+        //     console.log(`${scriptPath} wurde erfolgreich geladen.`);
+        // };
 
         script.onerror = function () {
             console.error(`Fehler beim Laden des Skripts: ${scriptPath}`);
         };
-    } else {
-        console.log(`Das Skript ${scriptPath} wurde bereits geladen.`);
     }
+    // else {
+    //     console.log(`Das Skript ${scriptPath} wurde bereits geladen.`);
+    // }
 }
 function clickListener(selector, callback) {
     document.querySelectorAll(selector)?.forEach(element => element.addEventListener('click', callback));

@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Devision",
   "version": "1.0",
-  "description": "mach mal nicht so viel auge.",
+  "description": "Devision – The all-in-one toolkit for web optimization, SEO analysis & performance boost!",
   "action": {
     "default_popup": "popup.html",
     "default_icon": {

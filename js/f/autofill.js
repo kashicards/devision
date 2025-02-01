@@ -57,8 +57,6 @@ function autofillForm() {
             case "radio":
                 input.checked = true;
                 break;
-            default:
-                console.log(`Input-Typ ${input.type} wird nicht unterstützt.`);
         }
     });
 
