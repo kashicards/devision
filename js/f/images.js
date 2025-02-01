@@ -2,16 +2,32 @@ function displayImageInfo(images) {
     const imagesList = document.getElementById("images-list");
     const noAltCounter = document.getElementById("no-alt-counter");
 
-    let noAltCount = 0;
+    if (!imagesList || !noAltCounter) return; // Sicherheits-Check gegen null
 
+    let noAltCount = 0;
     imagesList.innerHTML = "";
 
     images.forEach((img) => {
-        const listItem = document.createElement("li");
-        const dimensions = `<span class="image-dimensions">[ ${img.width}px x ${img.height}px ]</span>`;
-        const altText = `<span class="image-alt-text">- ${img.alt}</span>`;
+        if (!img.src || !/^https?:\/\//.test(img.src)) return; // Nur gültige URLs erlauben
 
-        listItem.innerHTML = `<a href="${img.src}" target="_blank">${img.src}</a> ${dimensions} ${altText}`;
+        const listItem = document.createElement("li");
+
+        const link = document.createElement("a");
+        link.href = img.src;
+        link.target = "_blank";
+        link.textContent = img.src;
+
+        const dimensions = document.createElement("span");
+        dimensions.classList.add("image-dimensions");
+        dimensions.textContent = `[ ${img.width}px x ${img.height}px ]`;
+
+        const altText = document.createElement("span");
+        altText.classList.add("image-alt-text");
+        altText.textContent = ` - ${img.alt.replace(/</g, "&lt;").replace(/>/g, "&gt;")}`; // XSS-Schutz
+
+        listItem.appendChild(link);
+        listItem.appendChild(dimensions);
+        listItem.appendChild(altText);
 
         if (img.alt === "Kein Alt-Text vorhanden") {
             listItem.classList.add("no-alt");
@@ -23,4 +39,3 @@ function displayImageInfo(images) {
 
     noAltCounter.textContent = `Counter: ${noAltCount}`;
 }
-

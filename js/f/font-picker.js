@@ -36,14 +36,12 @@ function displayFontList(fontUsage) {
   const fontListElement = document.getElementById("font-list");
   if (!fontListElement || !fontUsage) return;
 
-  console.log('FontUsage:', fontUsage);
-
   fontListElement.innerHTML = '';
 
   if (fontUsage.main.length > 0) {
     const mainList = document.createElement("ul");
     const mainTitle = document.createElement("h2");
-    mainTitle.textContent = "Hauptschriftarten:";
+    mainTitle.textContent = "Primary fonts:";
     fontListElement.appendChild(mainTitle);
 
     fontUsage.main.forEach(font => {
@@ -61,7 +59,7 @@ function displayFontList(fontUsage) {
   if (fontUsage.fallback.length > 0) {
     const fallbackList = document.createElement("ul");
     const fallbackTitle = document.createElement("h2");
-    fallbackTitle.textContent = "Fallback-Schriftarten:";
+    fallbackTitle.textContent = "Fallback fonts:";
     fontListElement.appendChild(fallbackTitle);
 
     fontUsage.fallback.forEach(font => {
@@ -79,13 +77,11 @@ function displayFontList(fontUsage) {
 
 function loadFonts() {
   chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-    console.log('Aktiver Tab:', tabs);
 
     chrome.scripting.executeScript({
       target: { tabId: tabs[0].id },
       function: getFonts
     }, (results) => {
-      console.log('Ergebnisse:', results);
       if (results && results[0]) {
         displayFontList(results[0].result);
       } else {

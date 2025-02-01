@@ -1,8 +1,13 @@
 const displaySchemaData = (schemaData) => {
     const schemaContainer = document.getElementById('schema-data');
+    if (!schemaContainer) return;
+
     schemaContainer.innerHTML = '';
-    if (schemaData.length === 0) {
-        schemaContainer.innerHTML = '<p>Keine Schema-Daten gefunden.</p>';
+
+    if (!Array.isArray(schemaData) || schemaData.length === 0) {
+        const noDataMessage = document.createElement('p');
+        noDataMessage.textContent = 'No schema data found.';
+        schemaContainer.appendChild(noDataMessage);
         return;
     }
 
@@ -14,10 +19,7 @@ const displaySchemaData = (schemaData) => {
         schemas.forEach(schemaItem => {
             const schemaType = schemaItem['@type'] || 'Unbekannt';
 
-            if (displayedSchemaTypes.has(schemaType)) {
-                return;
-            }
-
+            if (displayedSchemaTypes.has(schemaType)) return;
             displayedSchemaTypes.add(schemaType);
 
             const schemaElement = document.createElement('div');
@@ -47,7 +49,7 @@ const displaySchemaData = (schemaData) => {
                         value.forEach(item => {
                             const nestedDiv = document.createElement('div');
                             nestedDiv.classList.add('schema-nested');
-                            if (typeof item === 'object') {
+                            if (typeof item === 'object' && item !== null) {
                                 const nestedDlObject = document.createElement('div');
                                 nestedDlObject.classList.add('nested-object');
                                 Object.entries(item).forEach(([nestedKey, nestedValue]) => {
@@ -64,11 +66,11 @@ const displaySchemaData = (schemaData) => {
                                 });
                                 nestedDiv.appendChild(nestedDlObject);
                             } else {
-                                nestedDiv.textContent = item;
+                                nestedDiv.textContent = String(item);
                             }
                             dd.appendChild(nestedDiv);
                         });
-                    } else if (typeof value === 'object') {
+                    } else if (typeof value === 'object' && value !== null) {
                         const nestedDl = document.createElement('div');
                         nestedDl.classList.add('nested-object');
                         Object.entries(value).forEach(([nestedKey, nestedValue]) => {
@@ -78,14 +80,14 @@ const displaySchemaData = (schemaData) => {
 
                             const nestedValueElement = document.createElement('div');
                             nestedValueElement.classList.add('nested-value');
-                            nestedValueElement.textContent = nestedValue;
+                            nestedValueElement.textContent = String(nestedValue);
 
                             nestedDl.appendChild(nestedKeyElement);
                             nestedDl.appendChild(nestedValueElement);
                         });
                         dd.appendChild(nestedDl);
                     } else {
-                        dd.textContent = value;
+                        dd.textContent = String(value);
                     }
 
                     keyValueContainer.appendChild(dt);
@@ -101,10 +103,15 @@ const displaySchemaData = (schemaData) => {
 
                 const ratingElement = document.createElement('div');
                 ratingElement.classList.add('rating-item');
-                ratingElement.innerHTML = `
-                    <h2>Rating</h2>
-                    <p>Wertung: ${ratingValue} (Best: ${bestRating}, Worst: ${worstRating})</p>
-                `;
+
+                const ratingHeader = document.createElement('h2');
+                ratingHeader.textContent = 'Rating';
+
+                const ratingParagraph = document.createElement('p');
+                ratingParagraph.textContent = `Wertung: ${ratingValue} (Best: ${bestRating}, Worst: ${worstRating})`;
+
+                ratingElement.appendChild(ratingHeader);
+                ratingElement.appendChild(ratingParagraph);
                 schemaElement.appendChild(ratingElement);
             }
 
@@ -120,10 +127,10 @@ const getAllSchemaData = () => {
 
     schemaScripts.forEach(script => {
         try {
-            const data = JSON.parse(script.innerText);
+            const data = JSON.parse(script.textContent.trim());
             if (Array.isArray(data)) {
                 schemaData.push(...data);
-            } else {
+            } else if (typeof data === 'object' && data !== null) {
                 schemaData.push(data);
             }
         } catch (e) {
@@ -136,17 +143,28 @@ const getAllSchemaData = () => {
 
 const loadSchemaData = () => {
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+        if (!tabs || tabs.length === 0) return;
         const activeTab = tabs[0];
+
         chrome.scripting.executeScript({
             target: { tabId: activeTab.id },
-            function: extractSchemaData
+            function: () => {
+                try {
+                    return [...document.querySelectorAll('script[type="application/ld+json"]')]
+                        .map(script => JSON.parse(script.textContent.trim()))
+                        .filter(data => data !== null);
+                } catch (e) {
+                    console.error('Fehler beim Extrahieren der Schema-Daten:', e);
+                    return [];
+                }
+            }
         }, (result) => {
-            const schemaData = result[0]?.result || [];
-            displaySchemaData(schemaData);
+            if (!result || !Array.isArray(result) || !result[0] || !result[0].result) return;
+            displaySchemaData(result[0].result);
         });
     });
 };
 
 const schemaData = getAllSchemaData();
 displaySchemaData(schemaData);
-loadSchemaData(); 
+loadSchemaData();

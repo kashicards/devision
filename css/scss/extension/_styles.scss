@@ -28,7 +28,7 @@ body {
             background-size: contain;
             left: 0;
             top: 0;
-            transform: translate(-80px, -90px);
+            transform: translate(-80px, -40px);
             z-index: -1;
         }
 
@@ -52,6 +52,15 @@ body {
                     cursor: pointer;
                     position: relative;
                     overflow: hidden;
+
+                    &:hover {
+                        transition: transform 0.3s ease-in-out;
+
+                        img {
+                            animation: bounce 0.6s ease infinite;
+                        }
+                    }
+
 
                     div {
                         width: 100%;
@@ -105,7 +114,7 @@ body {
                 background-size: contain;
                 left: 0;
                 top: 0;
-                transform: translate(-80px, -90px);
+                transform: translate(-80px, -40px);
                 z-index: -1;
             }
 
@@ -199,7 +208,7 @@ body {
                 background-size: contain;
                 left: 0;
                 top: 0;
-                transform: translate(-80px, -90px);
+                transform: translate(-80px, -40px);
                 z-index: -1;
             }
 
@@ -420,4 +429,18 @@ body {
 
 .collapser-content.open {
     display: flex;
+}
+
+@keyframes bounce {
+    0% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-2px);
+    }
+
+    100% {
+        transform: translateY(0);
+    }
 }
