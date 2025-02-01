@@ -1,0 +1,423 @@
+@import 'variables';
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    &.popup {
+        width: 350px;
+        height: 500px;
+        background-image: linear-gradient(0deg,
+                hsl(242, 81%, 90%) 0%,
+                hsl(258, 78%, 90%) 20%,
+                hsl(269, 75%, 92%) 40%,
+                hsl(282, 68%, 90%) 60%,
+                hsl(299, 62%, 90%) 80%,
+                hsl(314, 73%, 90%) 100%);
+        padding: 10px 30px;
+        font-size: 14px;
+
+        &::before {
+            content: "";
+            position: absolute;
+            width: 225px;
+            height: 225px;
+            background: url(../images/illustration/planet.svg) no-repeat center;
+            background-size: contain;
+            left: 0;
+            top: 0;
+            transform: translate(-80px, -90px);
+            z-index: -1;
+        }
+
+
+
+        nav {
+            ul {
+                list-style: none;
+
+                li.nav-item {
+                    background-color: $light;
+                    display: flex;
+                    gap: 20px;
+                    font-size: 18px;
+                    margin-bottom: 10px;
+                    width: 300px;
+                    height: auto;
+                    padding: 35px 25px;
+                    border-radius: 25px;
+                    font-weight: 700;
+                    cursor: pointer;
+                    position: relative;
+                    overflow: hidden;
+
+                    div {
+                        width: 100%;
+
+                        span {
+                            font-size: 13px;
+                            display: block;
+                            font-weight: 400;
+                            width: 65%;
+                        }
+                    }
+
+                    img {
+                        position: absolute;
+                        top: 5px;
+                        right: 20px;
+                        width: 100px;
+
+                        &.robots {
+                            top: 15px;
+                            right: 10px;
+                            width: 120px;
+                        }
+                    }
+                }
+            }
+        }
+
+        .sub-menu-overlay {
+            display: none;
+            padding: 100px 30px 30px 30px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 350px;
+            height: -webkit-fill-available;
+            background-image: linear-gradient(0deg,
+                    hsl(242, 81%, 90%) 0%,
+                    hsl(258, 78%, 90%) 20%,
+                    hsl(269, 75%, 92%) 40%,
+                    hsl(282, 68%, 90%) 60%,
+                    hsl(299, 62%, 90%) 80%,
+                    hsl(314, 73%, 90%) 100%);
+
+            &::before {
+                content: "";
+                position: absolute;
+                width: 225px;
+                height: 225px;
+                background: url(../images/illustration/planet.svg) no-repeat center;
+                background-size: contain;
+                left: 0;
+                top: 0;
+                transform: translate(-80px, -90px);
+                z-index: -1;
+            }
+
+            .sub-menu-content {
+                ul {
+                    list-style: none;
+                    padding: 0;
+                    display: flex;
+                    flex-wrap: wrap;
+                    gap: 15px;
+
+                    li.sub-menu-item {
+                        background: $light;
+                        width: calc(100% / 2 - 15px - 30px - 30px);
+                        border-radius: 10px;
+                        padding: 15px;
+                        font-size: 16px;
+                        cursor: pointer;
+                        position: relative;
+                        padding-left: 50px;
+
+                        &[data-target] {
+                            position: relative;
+
+                            &::after,
+                            &::before {
+                                content: "";
+                                position: absolute;
+                                top: 50%;
+                                left: 10px;
+                                transform: translateY(-50%);
+                                width: 30px;
+                                height: 30px;
+                            }
+
+                            &::after {
+                                border-radius: 8px;
+                                z-index: 0;
+                            }
+
+                            &::before {
+                                background-repeat: no-repeat;
+                                background-position: center;
+                                background-size: 15px;
+                                z-index: 1;
+                            }
+
+                            @each $target, $values in $targets {
+                                &[data-target="#{$target}"] {
+                                    &::after {
+                                        background: linear-gradient(to bottom,
+                                                rgba(255, 0, 0, 0) 0%,
+                                                rgba(255, 0, 0, 0) 50%,
+                                                nth($values, 1) 100%);
+                                    }
+
+                                    &::before {
+                                        background-image: url("../images/icons/#{nth($values, 2)}");
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        .content-container {
+            padding: 100px 30px 30px 30px;
+            position: fixed;
+            margin-bottom: 10px;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            box-sizing: border-box;
+            background-image: linear-gradient(0deg,
+                    hsl(242, 81%, 90%) 0%,
+                    hsl(258, 78%, 90%) 20%,
+                    hsl(269, 75%, 92%) 40%,
+                    hsl(282, 68%, 90%) 60%,
+                    hsl(299, 62%, 90%) 80%,
+                    hsl(314, 73%, 90%) 100%);
+            overflow-y: scroll;
+
+            &::before {
+                content: "";
+                position: absolute;
+                width: 225px;
+                height: 225px;
+                background: url(../images/illustration/planet.svg) no-repeat center;
+                background-size: contain;
+                left: 0;
+                top: 0;
+                transform: translate(-80px, -90px);
+                z-index: -1;
+            }
+
+            &.color-container {
+
+                .infoWrapper {
+                    display: flex;
+                    justify-content: left;
+                    gap: 40px;
+                    margin-bottom: 20px;
+                    align-items: center;
+
+                    input {
+                        width: 70px;
+                        height: 50px;
+                    }
+
+                    #colorInfo {
+                        flex-basis: 50%;
+                    }
+                }
+
+            }
+
+            &.headings-container {
+                .heading-counter-container {
+                    display: flex;
+                    gap: 3px;
+                    flex-direction: row;
+
+                    .heading-counter-box {
+                        padding: 3px 7px;
+                    }
+                }
+            }
+
+            &.meta-container {
+                p {
+                    background-color: $light;
+                    padding: 20px;
+                    margin-bottom: 5px;
+                    border-radius: 10px;
+                    word-break: break-word;
+
+                    span {
+                        display: flex;
+                        flex-wrap: wrap;
+                        gap: 7px;
+
+                        span.tag {
+                            background-color: $primary;
+                            color: $light;
+                            padding: 5px 10px;
+                            border-radius: 5px;
+                        }
+                    }
+                }
+
+                strong {
+                    margin-bottom: 10px;
+                    display: block;
+                }
+            }
+
+            &.password-container {
+                .checkbox-wrapper {
+                    display: flex;
+                    align-items: center;
+                    margin-bottom: 20px;
+                    justify-content: space-between;
+
+                    label {
+                        margin-bottom: 0;
+                    }
+                }
+
+                .output-wrapper {
+                    display: flex;
+                    justify-content: space-between;
+
+                    input#passwordOutput {
+                        height: 25px;
+                        width: 180px;
+                    }
+                }
+
+                input#passwordLength {
+                    width: 100%;
+                }
+
+                #copyButton {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 3px;
+
+                    &::before {
+                        content: "";
+                        display: inline-block;
+                        width: 16px;
+                        height: 16px;
+                        background-image: url('.././images/icons/copy.svg');
+                        background-size: contain;
+                        background-repeat: no-repeat;
+                    }
+                }
+            }
+
+            &.speed-container {
+                p {
+                    display: flex;
+                    margin-bottom: 5px;
+
+                    b {
+                        flex-basis: 75%;
+
+                        span {
+                            font-size: 10px;
+                        }
+                    }
+
+                    span {
+                        flex-basis: 25%;
+                    }
+                }
+
+                .info-box {
+                    background: rgba($warning, 0.2);
+                    border: 1px solid $warning;
+                    border-radius: 10px;
+                    padding: 15px;
+                    font-size: 12px;
+                    margin-top: 20px;
+                }
+            }
+
+
+
+            &.headings-container,
+            &.links-container,
+            &.images-container,
+            &.font-container {
+                ul {
+                    list-style: none;
+
+                    &.list {
+                        margin-bottom: 20px;
+                    }
+
+                    li {
+                        margin-bottom: 10px;
+
+                        a {
+                            word-break: break-all;
+                        }
+
+                        span {
+                            display: block;
+                        }
+
+                        &.no-title,
+                        &.no-alt {
+                            span {
+                                color: $warning;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+.collapser-headline {
+    cursor: pointer;
+    padding: 10px;
+    background-color: $primary;
+    margin-bottom: 20px;
+    color: $light;
+    border-radius: 5px;
+}
+
+.collapser-content {
+    padding: 10px;
+    background-color: #fafafa;
+    display: none;
+    flex-wrap: wrap;
+
+    .key-value-container {
+        width: 100%;
+
+        .schema-key,
+        .nested-key {
+            display: block;
+            font-weight: 700;
+            margin-bottom: 5px;
+            overflow-wrap: break-word;
+            width: 100%;
+        }
+
+        .schema-value {
+            margin-bottom: 20px;
+            overflow-wrap: break-word;
+
+            .nested-object {
+                background: rgba($primary, 0.2);
+                padding: 10px;
+                border-radius: 10px;
+                margin-bottom: 2px;
+
+                .nested-value {
+                    margin-bottom: 10px;
+                }
+            }
+        }
+    }
+}
+
+.collapser-content.open {
+    display: flex;
+}

@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Page Info</title>
+    <link rel="stylesheet" href="css/main.css" />
+    <script src="js/popup.js"></script>
+    <script src="js/content.js"></script>
+    <script src="js/background.js"></script>
+    <script src="js/f/cache.js"></script>
+    <script src="js/f/headings.js"></script>
+    <script src="js/f/images.js"></script>
+    <script src="js/f/links.js"></script>
+    <script src="js/f/meta-data.js"></script>
+    <script src="js/f/pageSpeed.js"></script>
+</head>
+
+<body class="popup">
+    <h1 class="devision">
+        <span>v1.0.</span>
+        DEVISION
+    </h1>
+
+    <!-- NAVI -->
+    <nav>
+        <ul>
+            <li class="nav-item" data-menu="design-sub-menu">
+                <div>
+                    Design
+                    <span>Color Picker, Font finder</span>
+                </div>
+                <img src="/images/illustration/character-woman.svg" alt="" />
+            </li>
+            <li class="nav-item" data-menu="seo-sub-menu">
+                <div>
+                    SEO-Analyse
+                    <span>Meta-Data, Links, Schema</span>
+                </div>
+                <img src="/images/illustration/character.svg" alt="" />
+            </li>
+            <li class="nav-item" data-menu="optimize-sub-menu">
+                <div>
+                    Optimierung
+                    <span>Cache, SSL, Page-Speed, Autofill</span>
+                </div>
+                <img class="robots" src="/images/illustration/robot.svg" alt="" />
+            </li>
+        </ul>
+    </nav>
+
+    <!-- SUB -->
+    <div class="sub-menu-overlay" id="design-sub-menu">
+        <div class="sub-menu-content">
+            <button class="close-button"></button>
+            <ul>
+                <li id="color-menu-item" class="sub-menu-item" data-target="color-container">
+                    Color
+                </li>
+                <li id="font-menu-item" class="sub-menu-item" data-target="font-container">
+                    Font
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="sub-menu-overlay" id="seo-sub-menu">
+        <div class="sub-menu-content">
+            <button class="close-button"></button>
+            <ul>
+                <li id="meta-menu-item" class="sub-menu-item" data-target="meta-container">
+                    Meta-Data
+                </li>
+                <li id="images-menu-item" class="sub-menu-item" data-target="images-container">
+                    Image
+                </li>
+                <li id="headings-menu-item" class="sub-menu-item" data-target="headings-container">
+                    Headings
+                </li>
+                <li id="schmea-menu-item" class="sub-menu-item" data-target="schema-container">
+                    Schema
+                </li>
+                <li id="links-menu-item" class="sub-menu-item" data-target="links-container">
+                    Links
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="sub-menu-overlay" id="optimize-sub-menu">
+        <div class="sub-menu-content">
+            <button class="close-button"></button>
+            <ul>
+                <li id="cache-menu-item" class="sub-menu-item" data-target="cache-container">
+                    Cache
+                </li>
+                <li id="ssl-menu-item" class="sub-menu-item" data-target="ssl-container">
+                    SSL
+                </li>
+                <li id="speed-menu-item" class="sub-menu-item" data-target="speed-container">
+                    Page Speed
+                </li>
+                <li id="disable-menu-item" class="sub-menu-item" data-target="disable-container">
+                    disable
+                </li>
+                <li id="password-menu-item" class="sub-menu-item" data-target="password-container">
+                    generate pw
+                </li>
+                <li id="fill-menu-item" class="sub-menu-item" data-target="fill-container">
+                    Auto Fill
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="content-container color-container" id="color-container" style="display: none">
+        <button class="close-button"></button>
+        <div class="content">
+            <div class="infoWrapper">
+                <input type="color" id="colorDisplay" />
+                <div id="colorInfo">
+                    <p>
+                        HEX:
+                        <span id="hexValue">#000000</span>
+                    </p>
+                    <p>
+                        RGB:
+                        <span id="rgbValue">rgb(0, 0, 0)</span>
+                    </p>
+                </div>
+            </div>
+            <button class="full-width" id="pickColorBtn">Pick Color</button>
+        </div>
+    </div>
+
+    <div class="content-container font-container" id="font-container" style="display: none">
+        <button class="close-button"></button>
+        <div class="content">
+            <div id="font-list"></div>
+        </div>
+    </div>
+
+    <div class="content-container styles-container" id="styles-container" style="display: none">
+        <button class="close-button"></button>
+        <div class="content">
+            <button id="stylesButton">Remove Styles</button>
+            <p id="statusMessage"></p>
+        </div>
+    </div>
+    <div class="content-container disable-container" id="disable-container" style="display: none">
+        <button class="close-button"></button>
+        <div class="content">
+            <label>
+                <input type="checkbox" id="disable-js" />
+                JavaScript deaktivieren
+            </label>
+            <label>
+                <input type="checkbox" id="disable-all-styles" />
+                Alle Styles deaktivieren
+            </label>
+            <label>
+                <input type="checkbox" id="disable-inline-styles" />
+                Inline-Styles deaktivieren
+            </label>
+            <button id="apply-btn">Anwenden</button>
+        </div>
+    </div>
+
+    <div class="content-container password-container" id="password-container" style="display: none">
+        <button class="close-button"></button>
+        <div class="content">
+            <div class="output-wrapper">
+                <input type="text" id="passwordOutput" readonly />
+                <button id="copyButton">Copy</button>
+            </div>
+            <label for="passwordLength">
+                Password Length:
+                <span id="passwordLengthValue">12</span>
+            </label>
+            <input type="range" id="passwordLength" value="12" min="4" max="64" />
+
+            <div class="checkbox-wrapper">
+                <label for="includeUppercase">Uppercase</label>
+                <input type="checkbox" id="includeUppercase" checked />
+            </div>
+
+            <div class="checkbox-wrapper">
+                <label for="includeLowercase">Lowercase</label>
+                <input type="checkbox" id="includeLowercase" checked />
+            </div>
+
+            <div class="checkbox-wrapper">
+                <label for="includeNumbers">Numbers</label>
+                <input type="checkbox" id="includeNumbers" checked />
+            </div>
+
+            <div class="checkbox-wrapper">
+                <label for="includeSymbols">Special Characters</label>
+                <input type="checkbox" id="includeSymbols" checked />
+            </div>
+
+            <button id="generatePasswordButton">Generate Password</button>
+        </div>
+    </div>
+
+    <div class="content-container speed-container" id="speed-container" style="display: none">
+        <button class="close-button"></button>
+        <div class="content">
+            <!-- <p>
+                <b>URL: <span id="url"></span></b>
+            </p> -->
+            <p>
+                <b>
+                    Load Time:
+                    <span>(&lt;3000 ms)</span>
+                </b>
+                <span id="loadTime"></span>
+            </p>
+            <div class="progress">
+                <div id="loadTimeBar" class="progress-bar"></div>
+            </div>
+            <p>
+                <b>
+                    DOM Load Time:
+                    <span>(&lt;1000 ms)</span>
+                </b>
+                <span id="domLoadTime"></span>
+            </p>
+            <div class="progress">
+                <div id="domLoadTimeBar" class="progress-bar"></div>
+            </div>
+            <p>
+                <b>
+                    Render Time:
+                    <span>(&lt;500 ms)</span>
+                </b>
+                <span id="renderTime"></span>
+            </p>
+            <!-- <div class="progress">
+                <div id="renderTimeBar" class="progress-bar"></div>
+            </div> -->
+            <p>
+                <b>
+                    FCP:
+                    <span>(&lt;1000 ms)</span>
+                </b>
+                <span id="fcp"></span>
+            </p>
+            <p>
+                <b>
+                    LCP:
+                    <span>(&lt;2500 ms)</span>
+                </b>
+                <span id="lcp"></span>
+            </p>
+            <p>
+                <b>
+                    CLS:
+                    <span>(&lt;0.01)</span>
+                </b>
+                <span id="cls"></span>
+            </p>
+            <!-- <div class="progress">
+                <div id="clsBar" class="progress-bar"></div>
+            </div> -->
+            <!-- <p id="clsLabel"></p> -->
+            <!-- Ergänzung: CLS-Beschreibung -->
+            <p>
+                <b>Device:</b>
+                <span id="device"></span>
+            </p>
+
+            <div class="info-box">
+                Die Werte können je nach Messmethode variieren. Während
+                PageSpeed Insights unter standardisierten Bedingungen
+                testet, misst die Extension die Ladezeiten im realen Browser
+                des Nutzers, wodurch Caching und Systemeinstellungen die
+                Ergebnisse beeinflussen.
+            </div>
+        </div>
+    </div>
+
+    <div class="content-container meta-container" id="meta-container" style="display: none">
+        <button class="close-button"></button>
+        <p>
+            <strong>Title (50 - 60):</strong>
+            <span id="title">Loading...</span>
+        </p>
+        <p>
+            <strong>Description (150 - 160):</strong>
+            <span id="description">Loading...</span>
+        </p>
+        <p>
+            <strong>Keywords:</strong>
+            <span id="keywords">Loading...</span>
+        </p>
+        <p>
+            <strong>URL:</strong>
+            <span id="url">Loading...</span>
+        </p>
+        <p>
+            <strong>Canonical Tag:</strong>
+            <span id="canonical">Loading...</span>
+        </p>
+        <p>
+            <strong>Robots Tag:</strong>
+            <span id="robots">Loading...</span>
+        </p>
+        <p>
+            <strong>Author:</strong>
+            <span id="author">Loading...</span>
+        </p>
+        <p>
+            <strong>Publisher:</strong>
+            <span id="publisher">Loading...</span>
+        </p>
+        <p>
+            <strong>Language:</strong>
+            <span id="language">Loading...</span>
+        </p>
+    </div>
+
+    <div class="content-container headings-container" id="headings-container" style="display: none">
+        <button class="close-button"></button>
+        <div class="content">
+            <div class="heading-counter-container" id="heading-counter-container"></div>
+            <ul id="headings-list"></ul>
+        </div>
+    </div>
+
+    <div class="content-container links-container" id="links-container" style="display: none">
+        <button class="close-button"></button>
+        <div class="content">
+            <div class="counter" id="no-title-counter">Counter: 0</div>
+            <strong>&lt;header&gt;</strong>
+            <ul class="list" id="header-links-list"></ul>
+            <strong>&lt;nav&gt;</strong>
+            <ul class="list" id="nav-links-list"></ul>
+            <strong>&lt;main&gt;</strong>
+            <ul class="list" id="main-links-list"></ul>
+            <strong>&lt;footer&gt;</strong>
+            <ul class="list" id="footer-links-list"></ul>
+        </div>
+    </div>
+
+    <div class="content-container images-container" id="images-container" style="display: none">
+        <button class="close-button"></button>
+        <div class="content">
+            <div id="no-alt-counter" class="counter">Counter: 0</div>
+            <ul id="images-list"></ul>
+        </div>
+    </div>
+
+    <div class="content-container schema-container" id="schema-container" style="display: none">
+        <button class="close-button"></button>
+        <div class="content">
+            <div id="schema-data"></div>
+            <div id="schema-types"></div>
+        </div>
+    </div>
+
+    <div class="content-container chache-container" id="cache-container" style="display: none">
+        <button class="close-button"></button>
+        <div class="content">
+            <label>
+                <input type="checkbox" id="deleteCookies" />
+                Delete cookies
+            </label>
+            <label>
+                <input type="checkbox" id="deleteCache" />
+                Delete cache
+            </label>
+            <button id="clearDataButton">Delete data</button>
+            <p id="status">No action performed yet.</p>
+            <div id="cookies"></div>
+        </div>
+    </div>
+
+    <div class="content-container ssl-container" id="ssl-container" style="display: none">
+        <button class="close-button"></button>
+        <div class="content">
+            <ul id="ssl-list"></ul>
+        </div>
+    </div>
+</body>
+
+</html>
