@@ -12,7 +12,7 @@ function loadScript(scriptPath) {
         // };
 
         script.onerror = function () {
-            console.error(`Fehler beim Laden des Skripts: ${scriptPath}`);
+            // console.error(`Fehler beim Laden des Skripts: ${scriptPath}`);
         };
     }
     // else {

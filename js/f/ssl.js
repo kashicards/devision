@@ -6,7 +6,7 @@ function loadScript(url) {
         loadSSLStatus();
     };
     script.onerror = function () {
-        console.error("Error loading the script:", url);
+        // console.error("Error loading the script:", url);
     };
     document.head.appendChild(script);
 }

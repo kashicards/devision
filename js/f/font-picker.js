@@ -23,7 +23,7 @@ function getFonts() {
       }
     });
   } catch (error) {
-    console.error('Fehler beim Abrufen der Schriftarten:', error);
+    // console.error('Fehler beim Abrufen der Schriftarten:', error);
   }
 
   return {
@@ -85,7 +85,7 @@ function loadFonts() {
       if (results && results[0]) {
         displayFontList(results[0].result);
       } else {
-        console.error('Fehler: Keine Schriftarten gefunden oder das Skript hat nicht funktioniert.');
+        // console.error('Fehler: Keine Schriftarten gefunden oder das Skript hat nicht funktioniert.');
       }
     });
   });

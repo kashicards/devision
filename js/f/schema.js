@@ -134,7 +134,7 @@ const getAllSchemaData = () => {
                 schemaData.push(data);
             }
         } catch (e) {
-            console.error('Fehler beim Parsen von Schema-Daten:', e);
+            // console.error('Fehler beim Parsen von Schema-Daten:', e);
         }
     });
 
@@ -154,7 +154,7 @@ const loadSchemaData = () => {
                         .map(script => JSON.parse(script.textContent.trim()))
                         .filter(data => data !== null);
                 } catch (e) {
-                    console.error('Fehler beim Extrahieren der Schema-Daten:', e);
+                    // console.error('Fehler beim Extrahieren der Schema-Daten:', e);
                     return [];
                 }
             }

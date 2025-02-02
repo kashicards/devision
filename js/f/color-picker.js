@@ -21,7 +21,7 @@ async function pickColor() {
         document.getElementById("colorDisplay").value = color;
         updateColorValues(color);
     } catch (error) {
-        console.error("Error picking color: ", error);
+        // console.error("Error picking color: ", error);
     }
 }
 
@@ -38,7 +38,7 @@ function copyToClipboardAndShowMessage(text, elementId) {
             element.textContent = text;
         }, 2000);
     }).catch(err => {
-        console.error("Error copying to clipboard: ", err);
+        // console.error("Error copying to clipboard: ", err);
     });
 }
 

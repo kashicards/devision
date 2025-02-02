@@ -7,8 +7,8 @@ function pageSpeed() {
         const activeTab = tabs[0];
 
         if (!activeTab) {
-            console.error('Kein aktiver Tab gefunden.');
-            return;
+            // console.error('Kein aktiver Tab gefunden.');
+            // return;
         }
 
         chrome.scripting.executeScript(
@@ -18,15 +18,15 @@ function pageSpeed() {
             },
             (results) => {
                 if (chrome.runtime.lastError) {
-                    console.error('Fehler beim Ausführen des Skripts:', chrome.runtime.lastError.message);
+                    // console.error('Fehler beim Ausführen des Skripts:', chrome.runtime.lastError.message);
                     return;
                 }
 
                 if (results && results[0] && results[0].result) {
                     displayPerformanceData(activeTab.url, results[0].result);
                 } else {
-                    console.error('Keine Performance-Daten verfügbar.');
-                    displayError('Keine Performance-Daten verfügbar.');
+                    // console.error('Keine Performance-Daten verfügbar.');
+                    // displayError('Keine Performance-Daten verfügbar.');
                 }
             }
         );
@@ -96,8 +96,8 @@ function collectPerformanceData() {
 
 function displayPerformanceData(url, data) {
     if (!data) {
-        console.error('Keine Performance-Daten verfügbar.');
-        displayError('Keine Performance-Daten verfügbar.');
+        // console.error('Keine Performance-Daten verfügbar.');
+        // displayError('Keine Performance-Daten verfügbar.');
         return;
     }
 
