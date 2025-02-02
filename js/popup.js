@@ -57,7 +57,7 @@ function initializeEventListeners() {
         loadScript('js/f/links.js');
     });
     clickListener('#fill-menu-item', function () {
-        loadScript('js/f/autofill.js');
+        loadScript('js/f/auto-fill.js');
     });
     clickListener('#schmea-menu-item', function () {
         loadScript('js/f/schema.js');
