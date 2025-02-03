@@ -437,6 +437,43 @@ body {
     display: flex;
 }
 
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(241, 241, 241, 0.8);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba($primary, 0.5);
+    border-radius: 10px;
+    border: 2px solid rgba(241, 241, 241, 0.8);
+    transition: all 0.3s ease-in-out;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    transition: all 0.3s ease-in-out;
+    background: rgba($primary, 1);
+}
+
+scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+scrollbar-track {
+    background: rgba(241, 241, 241, 0.8);
+    border-radius: 10px;
+}
+
+scrollbar-thumb {
+    background: $primary;
+    border-radius: 10px;
+}
+
 @keyframes bounce {
     0% {
         transform: translateY(0);

@@ -17,25 +17,11 @@
     "128": "images/logo-128.png"
   },
   "permissions": [
-    "scripting",
     "activeTab",
+    "scripting",
     "tabs",
     "cookies",
-    "storage",
     "browsingData"
-  ],
-  "host_permissions": [
-    "<all_urls>"
-  ],
-  "content_scripts": [
-    {
-      "matches": [
-        "<all_urls>"
-      ],
-      "js": [
-        "js/content.js"
-      ]
-    }
   ],
   "content_security_policy": {
     "extension_pages": "script-src 'self'; object-src 'none'"
