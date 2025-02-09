@@ -16,7 +16,8 @@ label {
     margin-bottom: 20px;
 }
 
-button {
+button,
+.btn {
     font-size: 14px;
     background-color: $primary;
     color: $light;
@@ -25,6 +26,26 @@ button {
     cursor: pointer;
     border: none;
     margin-bottom: 20px;
+    text-decoration: none;
+
+    &.discord-btn {
+        display: flex;
+        width: fit-content;
+        float: right;
+        gap: 5px;
+        position: absolute;
+        right: 30px;
+        bottom: 10px;
+
+        &::before {
+            content: "";
+            display: inline-block; // Block-Element, damit es sichtbar ist
+            width: 20px;
+            height: 20px;
+            background: url('../images/icons/discord.svg') no-repeat center;
+            background-size: contain;
+        }
+    }
 
     &.close-button {
         display: flex;

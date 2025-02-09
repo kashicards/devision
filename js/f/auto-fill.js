@@ -6,12 +6,7 @@ function autofillForm() {
     inputs.forEach((input) => {
         if (input.type === "hidden" || input.offsetParent === null) return;
 
-        if (input.type === "checkbox" && (input.name === "Datenschutz" || input.classList.contains("Datenschutz"))) {
-            input.checked = true;
-            input.dispatchEvent(new Event("change"));
-            return;
-        }
-        if (input.type === "checkbox" && (input.name === "privacyPolicy" || input.classList.contains("privacyPolicy"))) {
+        if (input.type === "checkbox") {
             input.checked = true;
             input.dispatchEvent(new Event("change"));
             return;
@@ -61,7 +56,7 @@ function autofillForm() {
     });
 
     textareas.forEach((textarea) => {
-        textarea.value = `Test Nachricht`;
+        textarea.value = `Test message`;
     });
 
     selects.forEach((select) => {
@@ -83,7 +78,3 @@ chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
         });
     }
 });
-
-
-
-

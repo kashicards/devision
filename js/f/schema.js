@@ -11,16 +11,11 @@ const displaySchemaData = (schemaData) => {
         return;
     }
 
-    const displayedSchemaTypes = new Set();
-
     schemaData.forEach(item => {
         const schemas = item['@graph'] || [item];
 
         schemas.forEach(schemaItem => {
             const schemaType = schemaItem['@type'] || 'Unbekannt';
-
-            if (displayedSchemaTypes.has(schemaType)) return;
-            displayedSchemaTypes.add(schemaType);
 
             const schemaElement = document.createElement('div');
             schemaElement.classList.add('schema-item');

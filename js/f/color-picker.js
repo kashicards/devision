@@ -31,16 +31,22 @@ function updateColorValues(color) {
 }
 
 function copyToClipboardAndShowMessage(text, elementId) {
-    navigator.clipboard.writeText(text).then(() => {
-        const element = document.getElementById(elementId);
+    const element = document.getElementById(elementId);
+
+    if (!element.dataset.original) {
+        element.dataset.original = text;
+    }
+
+    navigator.clipboard.writeText(element.dataset.original).then(() => {
         element.textContent = "Copied!";
         setTimeout(() => {
-            element.textContent = text;
+            element.textContent = element.dataset.original;
         }, 2000);
     }).catch(err => {
-        // console.error("Error copying to clipboard: ", err);
+        console.error("Error copying to clipboard: ", err);
     });
 }
+
 
 document.getElementById("hexValue").addEventListener("click", function () {
     const hex = this.textContent;
