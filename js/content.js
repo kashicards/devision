@@ -20,12 +20,19 @@ const extractPageData = () => {
         };
     });
 
-    const images = [...document.querySelectorAll("img")].map(img => ({
-        src: img.src,
-        width: img.width || img.naturalWidth,
-        height: img.height || img.naturalHeight,
-        alt: img.getAttribute("alt") || "Kein Alt-Text vorhanden"
-    }));
+    const images = [...document.querySelectorAll("img")].map(img => {
+        const parentElement = img.closest("header, nav, main, footer");
+        const parentTag = parentElement ? parentElement.tagName.toLowerCase() : "main";
+
+        return {
+            src: img.src,
+            width: img.width || img.naturalWidth,
+            height: img.height || img.naturalHeight,
+            alt: img.getAttribute("alt") || "alt is missing",
+            parentTag: parentTag
+        };
+    });
+
 
     const keywordsMeta = document.querySelector("meta[name='keywords']")?.getAttribute("content") || "Keywords not found";
     const keywords = keywordsMeta !== "Keywords not found" ? keywordsMeta.split(',').map(k => k.trim()) : [];

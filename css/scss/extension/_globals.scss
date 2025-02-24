@@ -18,7 +18,7 @@ label {
 
 button,
 .btn {
-    font-size: 14px;
+    display: inline-block;
     background-color: $primary;
     color: $light;
     padding: 5px 10px;
@@ -27,6 +27,7 @@ button,
     border: none;
     margin-bottom: 20px;
     text-decoration: none;
+    font-size: 14px;
 
     &.discord-btn {
         display: flex;
@@ -78,6 +79,7 @@ button,
     border-radius: 5px;
     width: fit-content;
     opacity: .8;
+    display: block;
 }
 
 .content {

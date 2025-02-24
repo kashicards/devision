@@ -351,7 +351,11 @@ body {
                 }
             }
 
-
+            &.ssl-container {
+                ul {
+                    margin-bottom: 20px;
+                }
+            }
 
             &.headings-container,
             &.links-container,
@@ -486,4 +490,37 @@ scrollbar-thumb {
     100% {
         transform: translateY(0);
     }
+}
+
+.website-container {
+    background: $primary;
+    border-radius: 8px;
+    position: relative;
+    padding: 15px;
+
+    img {
+        width: 45%;
+        position: absolute;
+        left: 0px;
+        bottom: -6px;
+    }
+
+    .website-content {
+        font-size: 14px;
+        width: auto;
+        margin-left: 50%;
+
+        p {
+            color: $light;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        a {
+            display: block;
+            background: lighten($primary, 0.4);
+            margin-bottom: 0;
+        }
+    }
+
 }

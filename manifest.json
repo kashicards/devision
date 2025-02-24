@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "Devision",
-  "version": "1.0",
-  "description": "Devision – The all-in-one toolkit for web optimization, SEO analysis & performance boost!",
+  "name": "Devision – Web & SEO Toolkit",
+  "version": "1.0.1",
+  "description": "Devision – The Ultimate Web & SEO Toolkit for Developers & Designers!",
   "action": {
     "default_popup": "popup.html",
     "default_icon": {

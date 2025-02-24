@@ -26,7 +26,7 @@ function displayLinksInfo(links) {
         anchor.textContent = link.href;
 
         const titleText = document.createElement("span");
-        const titleValue = link.title ? link.title : "Kein Titel vorhanden";
+        const titleValue = link.title ? link.title : "title is missing";
         titleText.textContent = ` - ${titleValue}`;
 
         const targetText = document.createElement("span");
@@ -36,7 +36,7 @@ function displayLinksInfo(links) {
         listItem.appendChild(titleText);
         listItem.appendChild(targetText);
 
-        if (titleValue === "Kein Titel vorhanden") {
+        if (titleValue === "title is missing") {
             listItem.classList.add("no-title");
             noTitleCount++;
         }

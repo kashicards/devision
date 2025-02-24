@@ -121,7 +121,7 @@ function loadPageData() {
         const activeTab = tabs[0];
         chrome.scripting.executeScript({
             target: { tabId: activeTab.id },
-            function: extractPageData
+            function: () => extractPageData()
         }, (result) => {
             if (result && result[0]) {
                 displayPageData(result[0].result);
@@ -129,6 +129,7 @@ function loadPageData() {
         });
     });
 }
+
 
 // GENERALL FUNCTIONS
 
@@ -183,4 +184,3 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 });
-
