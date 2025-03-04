@@ -35,7 +35,7 @@
             </li>
             <li class="nav-item" data-menu="seo-sub-menu">
                 <div>
-                    SEO-analysis
+                    SEO-Analysis
                     <span>Meta Data, Links, Schema</span>
                 </div>
                 <img src="/images/illustration/character.svg" alt="" />
@@ -146,13 +146,6 @@
         </div>
     </div>
 
-    <div class="content-container styles-container" id="styles-container" style="display: none">
-        <button class="close-button"></button>
-        <div class="content">
-            <button id="stylesButton">Remove Styles</button>
-            <p id="statusMessage"></p>
-        </div>
-    </div>
     <div class="content-container disable-container" id="disable-container" style="display: none">
         <button class="close-button"></button>
         <div class="content">
@@ -169,6 +162,10 @@
                 Disable inline styles
             </label>
             <button id="apply-btn">Apply</button>
+            <div class="info-box no-mt">
+                After reloading, the checkbox state isn't automatically restored. You need to manually uncheck it to
+                undo the changes, as the script only saves the state when checked or unchecked.
+            </div>
         </div>
     </div>
 

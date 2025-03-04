@@ -1,75 +1,67 @@
-document.getElementById("apply-btn").addEventListener("click", () => {
-    chrome.tabs.query({ active: true, currentWindow: true }, ([tab]) => {
-        if (document.getElementById("disable-js").checked) {
-            chrome.scripting.executeScript({
-                target: { tabId: tab.id },
-                function: disableJavaScript
-            });
-        }
-        if (document.getElementById("disable-all-styles").checked) {
-            chrome.scripting.executeScript({
-                target: { tabId: tab.id },
-                function: disableAllStyles
-            });
-        }
-        if (document.getElementById("disable-inline-styles").checked) {
-            chrome.scripting.executeScript({
-                target: { tabId: tab.id },
-                function: disableInlineStyles
-            });
-        }
-    });
-});
+document.getElementById("apply-btn").addEventListener("click", handleApplyClick);
+document.addEventListener("DOMContentLoaded", restoreCheckboxState);
 
-function disableJavaScript() {
-    let id = window.setTimeout(() => { }, 0);
-    while (id--) {
-        clearTimeout(id);
-        clearInterval(id);
+async function handleApplyClick() {
+    const tab = await getActiveTab();
+    if (!tab?.url) return;
+
+    const domain = new URL(tab.url).hostname;
+
+    if (document.getElementById("disable-all-styles").checked) {
+        executeScript(tab.id, disableAllStyles);
     }
 
-    window.setTimeout = function () { };
-    window.setInterval = function () { };
+    if (document.getElementById("disable-inline-styles").checked) {
+        executeScript(tab.id, disableInlineStyles);
+    }
 
-    window.fetch = function () { return Promise.reject(); };
-    window.WebSocket = function () { return null; };
-    window.Worker = function () { return null; };
+    await handleJavaScriptBlocking(domain, tab.id);
+}
 
-    document.write = function () { };
+async function handleJavaScriptBlocking(domain, tabId) {
+    const isChecked = document.getElementById("disable-js").checked;
+    const currentRules = await chrome.declarativeNetRequest.getDynamicRules();
+    const ruleIds = currentRules.map(rule => rule.id);
 
-    document.body.innerHTML = document.body.innerHTML;
-    window.addEventListener = function () { };
-    document.addEventListener = function () { };
+    if (isChecked) {
+        await chrome.storage.local.set({ [domain]: true });
+        await updateDynamicRules(ruleIds, [{
+            id: 1,
+            priority: 1,
+            action: { type: "block" },
+            condition: { resourceTypes: ["script"], domains: [domain], urlFilter: "*" }
+        }]);
+    } else {
+        await chrome.storage.local.remove(domain);
+        await updateDynamicRules(ruleIds, []);
+    }
 
-    const observer = new MutationObserver(() => { });
-    observer.observe(document, { childList: true, subtree: true });
-    observer.disconnect();
+    chrome.tabs.reload(tabId, { bypassCache: true });
+}
 
-    Document.prototype.createElement = new Proxy(Document.prototype.createElement, {
-        apply(target, thisArg, args) {
-            if (args[0].toLowerCase() === "script") {
-                return document.createElement("div");
-            }
-            return Reflect.apply(target, thisArg, args);
-        }
+async function restoreCheckboxState() {
+    const tab = await getActiveTab();
+    if (!tab?.url) return;
+
+    const domain = new URL(tab.url).hostname;
+    const result = await chrome.storage.local.get(domain);
+    document.getElementById("disable-js").checked = result[domain] === true;
+}
+
+function executeScript(tabId, func) {
+    chrome.scripting.executeScript({
+        target: { tabId },
+        function: func
     });
+}
 
-    DOMTokenList.prototype.add = function () { };
-    DOMTokenList.prototype.remove = function () { };
-    DOMTokenList.prototype.toggle = function () { };
+async function getActiveTab() {
+    const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+    return tab;
+}
 
-    Object.defineProperty(Element.prototype, "style", {
-        set: function () { }
-    });
-
-    Element.prototype.setAttribute = new Proxy(Element.prototype.setAttribute, {
-        apply(target, thisArg, args) {
-            if (args[0] === "class" || args[0] === "style") {
-                return;
-            }
-            return Reflect.apply(target, thisArg, args);
-        }
-    });
+async function updateDynamicRules(removeRuleIds, addRules) {
+    await chrome.declarativeNetRequest.updateDynamicRules({ removeRuleIds, addRules });
 }
 
 function disableAllStyles() {
@@ -77,15 +69,12 @@ function disableAllStyles() {
 
     Document.prototype.createElement = new Proxy(Document.prototype.createElement, {
         apply(target, thisArg, args) {
-            if (args[0].toLowerCase() === "style") {
-                return document.createElement("div");
-            }
-            return Reflect.apply(target, thisArg, args);
+            return args[0].toLowerCase() === "style" ? document.createElement("div") : Reflect.apply(target, thisArg, args);
         }
     });
 
-    CSSStyleSheet.prototype.insertRule = function () { };
-    CSSStyleSheet.prototype.addRule = function () { };
+    CSSStyleSheet.prototype.insertRule = () => { };
+    CSSStyleSheet.prototype.addRule = () => { };
 
     document.head.insertAdjacentHTML("beforeend", "<style>* { animation: none !important; transition: none !important; }</style>");
 }

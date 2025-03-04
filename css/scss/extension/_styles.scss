@@ -45,6 +45,7 @@ body {
                 list-style: none;
 
                 li.nav-item {
+                    user-select: none;
                     background-color: $light;
                     display: flex;
                     gap: 20px;
@@ -133,6 +134,7 @@ body {
                     gap: 15px;
 
                     li.sub-menu-item {
+                        user-select: none;
                         background: $light;
                         width: calc(100% / 2 - 15px - 30px - 30px);
                         border-radius: 10px;
@@ -339,15 +341,6 @@ body {
                     span {
                         flex-basis: 25%;
                     }
-                }
-
-                .info-box {
-                    background: rgba($warning, 0.2);
-                    border: 1px solid $warning;
-                    border-radius: 10px;
-                    padding: 15px;
-                    font-size: 12px;
-                    margin-top: 20px;
                 }
             }
 

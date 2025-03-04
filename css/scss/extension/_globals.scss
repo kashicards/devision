@@ -19,6 +19,7 @@ label {
 button,
 .btn {
     display: inline-block;
+    user-select: none;
     background-color: $primary;
     color: $light;
     padding: 5px 10px;
