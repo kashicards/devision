@@ -23,29 +23,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 });
 
-// document.getElementById("disable-js").addEventListener("change", async (event) => {
-//     const disableJS = event.target.checked;
-
-//     await chrome.storage.local.set({
-//         'disable-js': disableJS
-//     });
-
-//     // Änderungen auf der Seite anwenden
-//     chrome.tabs.query({ active: true, currentWindow: true }, async ([tab]) => {
-//         if (!tab?.id) return;
-
-//         const tabId = tab.id;
-//         const disableStyles = document.getElementById("disable-all-styles").checked;
-//         const disableInlineStyles = document.getElementById("disable-inline-styles").checked;
-
-//         chrome.scripting.executeScript({
-//             target: { tabId },
-//             func: applyChanges,
-//             args: [disableJS, disableStyles, disableInlineStyles]
-//         });
-//     });
-// });
-
 document.getElementById("apply-btn").addEventListener("click", () => {
     chrome.tabs.query({ active: true, currentWindow: true }, async ([tab]) => {
         if (!tab?.id) return;
