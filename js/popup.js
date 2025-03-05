@@ -72,6 +72,10 @@ function initializeEventListeners() {
         loadScript('js/f/disable.js');
     });
 
+    chrome.storage.local.get('disable-js', (result) => {
+        const disableJS = result['disable-js'] || false;
+        document.getElementById('disable-js').checked = disableJS;
+    });
 }
 
 function displayAdditionalPageInfo(data) {
