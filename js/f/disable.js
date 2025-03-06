@@ -32,6 +32,9 @@ document.getElementById("apply-btn").addEventListener("click", () => {
         const disableStyles = document.getElementById("disable-all-styles").checked;
         const disableInlineStyles = document.getElementById("disable-inline-styles").checked;
 
+        const storedState = await chrome.storage.local.get(`${tabId}-disable-js`);
+        const lastDisableJS = storedState[`${tabId}-disable-js`] || false;
+
         await chrome.storage.local.set({
             'disable-js': disableJS,
             [`${tabId}-disable-js`]: disableJS
@@ -74,7 +77,9 @@ document.getElementById("apply-btn").addEventListener("click", () => {
             });
         }
 
-        chrome.tabs.reload(tab.id, { bypassCache: true });
+        if (disableJS !== lastDisableJS) {
+            chrome.tabs.reload(tab.id, { bypassCache: true });
+        }
     });
 });
 
@@ -126,8 +131,24 @@ function applyChanges(disableJS, disableStyles, disableInlineStyles) {
     if (disableStyles) {
         const linkStyles = document.querySelectorAll('link[rel="stylesheet"], style');
         linkStyles.forEach(style => {
-            style.setAttribute('data-disabled', 'true');
-            style.remove();
+            if (style.tagName === 'LINK') {
+                style.setAttribute('data-devision-ref', style.getAttribute('href'));
+                style.removeAttribute('href');
+            } else {
+                style.setAttribute('data-devision-style', style.innerHTML);
+                style.innerHTML = '';
+            }
+        });
+    } else {
+        const linkStyles = document.querySelectorAll('link[data-devision-ref], style[data-disabled="true"]');
+        linkStyles.forEach(link => {
+            if (link.tagName === 'LINK') {
+                link.setAttribute('href', link.getAttribute('data-devision-ref'));
+                link.removeAttribute('data-devision-ref');
+            } else {
+                link.innerHTML = link.getAttribute('data-devision-style');
+                link.removeAttribute('data-devision-style');
+            }
         });
     }
 
@@ -135,10 +156,16 @@ function applyChanges(disableJS, disableStyles, disableInlineStyles) {
         const elementsWithStyles = document.querySelectorAll('*');
         elementsWithStyles.forEach(element => {
             if (element.style.cssText) {
-                element.setAttribute('data-style', 'true');
+                element.setAttribute('data-devision-style', element.getAttribute('style'));
                 element.removeAttribute('style');
             }
         });
+    } else {
+        const allElementsWithInlineStyle = document.querySelectorAll('*[data-devision-style]');
+        allElementsWithInlineStyle.forEach(element => {
+        element.setAttribute('style', element.getAttribute('data-devision-style'));
+        element.removeAttribute('data-devision-style');
+    });
     }
 }
 
@@ -149,18 +176,20 @@ function resetJSAndStyles() {
         document.body.appendChild(script);
     });
 
-    const linkStyles = document.querySelectorAll('link[data-disabled="true"], style[data-disabled="true"]');
+    const linkStyles = document.querySelectorAll('link[data-devision-ref], style[data-disabled="true"]');
     linkStyles.forEach(link => {
-        link.removeAttribute('data-disabled');
-        if (link.tagName === "LINK") {
-            document.head.appendChild(link);
+        if (link.tagName === 'LINK') {
+            link.setAttribute('href', link.getAttribute('data-devision-ref'));
+            link.removeAttribute('data-devision-ref');
         } else {
-            document.head.appendChild(link);
+            link.innerHTML = link.getAttribute('data-devision-style');
+            link.removeAttribute('data-devision-style');
         }
     });
 
-    const allElements = document.querySelectorAll('*[data-style="true"]');
+    const allElements = document.querySelectorAll('*[data-devision-style]');
     allElements.forEach(element => {
-        element.removeAttribute('data-style');
+        element.setAttribute('style', element.getAttribute('data-devision-style'));
+        element.removeAttribute('data-devision-style');
     });
 }
