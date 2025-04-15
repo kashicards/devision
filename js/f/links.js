@@ -15,22 +15,22 @@ function displayLinksInfo(links) {
     let noTitleCount = 0;
 
     links.forEach((link) => {
-        if (!link.href || !/^https?:\/\//.test(link.href)) return;
 
         const listItem = document.createElement("li");
 
         const anchor = document.createElement("a");
-        anchor.href = link.href;
+        anchor.href = link.href || "#";
         anchor.target = link.target === "_blank" ? "_blank" : "_self";
         anchor.rel = "noopener noreferrer";
-        anchor.textContent = link.href;
+        anchor.textContent = link.href || "No href";
 
         const titleText = document.createElement("span");
         const titleValue = link.title ? link.title : "title is missing";
         titleText.textContent = ` - ${titleValue}`;
 
         const targetText = document.createElement("span");
-        targetText.textContent = ` - ${link.target}`;
+
+        targetText.textContent = ` - ${link.target || "No target"}`;
 
         listItem.appendChild(anchor);
         listItem.appendChild(titleText);
@@ -61,3 +61,18 @@ function displayLinksInfo(links) {
 
     noTitleCounter.textContent = `Counter: ${noTitleCount}`;
 }
+<<<<<<< HEAD
+=======
+
+// Alle <a>-Tags auf der Seite finden und Informationen sammeln
+document.addEventListener("DOMContentLoaded", () => {
+    const links = Array.from(document.querySelectorAll("a")).map((link) => ({
+        href: link.getAttribute("href"),
+        title: link.getAttribute("title"),
+        target: link.getAttribute("target"),
+        parentTag: link.closest("header, nav, main, footer")?.tagName?.toLowerCase() || "other"
+    }));
+
+    displayLinksInfo(links);
+});
+>>>>>>> main

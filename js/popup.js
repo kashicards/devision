@@ -62,9 +62,11 @@ function initializeEventListeners() {
     clickListener('#schmea-menu-item', function () {
         loadScript('js/f/schema.js');
     });
-    // clickListener('#cache-menu-item', function () {
-    //     loadScript('js/f/cache.js');
-    // });
+
+    clickListener('#gradient-menu-item', function () {
+        loadScript('js/f/gradient.js');
+    });
+
     clickListener('#ssl-menu-item', function () {
         loadScript('js/f/ssl.js');
     });
@@ -179,8 +181,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     document.body.addEventListener("click", (event) => {
         if (event.target.classList.contains("collapser-headline")) {
+            const headline = event.target;
+            const content = headline.nextElementSibling;
 
-            const content = event.target.nextElementSibling;
+            headline.classList.toggle('opened');
 
             if (content && content.classList.contains("collapser-content")) {
                 content.classList.toggle('open');

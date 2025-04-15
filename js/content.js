@@ -14,7 +14,8 @@ const extractPageData = () => {
         const parentTag = link.closest("header, nav, main, footer")?.tagName.toLowerCase() || "main";
         return {
             href: link.href,
-            title: link.getAttribute("title") || "Kein Titel vorhanden",
+
+            title: link.getAttribute("title") || "title is missing",
             parentTag: parentTag,
             target: link.getAttribute("target") || "_self"
         };

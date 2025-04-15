@@ -17,7 +17,8 @@ $targets: (
     "links-container": (rgb(255, 235, 59), "link.svg"),
     "images-container": (rgb(129, 199, 132), "image.svg"),
     "schema-container": (rgb(100, 181, 246), "schema.svg"),
-    "font-container": (rgb(255, 183, 77), "font.svg")
+    "font-container": (rgb(255, 183, 77), "font.svg"),
+    "gradient-container": (rgb(129, 199, 132), "gradient.svg")
 );
 
 @function lighten($color, $amount) {

@@ -1,7 +1,8 @@
 const passwordLengthInput = document.getElementById("passwordLength");
 const passwordLengthValue = document.getElementById("passwordLengthValue");
 const generatePasswordButton = document.getElementById("generatePasswordButton");
-const copyButton = document.getElementById("copyButton");
+const copyButton = document.querySelector(".copy-button");
+const copyText = document.querySelector(".copy-text");
 const passwordOutput = document.getElementById("passwordOutput");
 
 passwordLengthInput.addEventListener("input", () => {
@@ -35,11 +36,17 @@ function generatePassword() {
     passwordOutput.value = password;
 }
 
+<<<<<<< HEAD
 function copyToClipboard() {
+=======
+document.body.addEventListener("click", (event) => {
+
+>>>>>>> main
     if (passwordOutput.value) {
         passwordOutput.select();
         document.execCommand("copy");
 
+<<<<<<< HEAD
         copyButton.textContent = "Copied!";
         setTimeout(() => {
             copyButton.textContent = "Copy";
@@ -50,3 +57,18 @@ function copyToClipboard() {
 generatePasswordButton.addEventListener("click", generatePassword);
 
 copyButton.addEventListener("click", copyToClipboard);
+=======
+        const copyWrapper = document.querySelector(".copy-wrapper");
+
+        copyWrapper.style.setProperty("--copy-text", '"Copied!"');
+
+        setTimeout(() => {
+            copyWrapper.style.setProperty("--copy-text", '"Copy"');
+        }, 1000);
+    }
+
+});
+
+generatePasswordButton.addEventListener("click", generatePassword);
+
+>>>>>>> main
