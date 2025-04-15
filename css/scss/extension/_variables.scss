@@ -1,0 +1,30 @@
+$light: #FFFAFA;
+$primary: #B993FF;
+$warning: #fd6c56;
+$dark: #1f1f1f;
+
+$targets: (
+    "color-container": (rgb(255, 111, 111), "pipette.svg"),
+    "cache-container": (rgb(237, 97, 97), "cache.svg"),
+    "ssl-container": (rgb(255, 183, 77), "ssl.svg"),
+    "speed-container": (rgb(255, 235, 59), "speed.svg"),
+    "dns-container": (rgb(255, 141, 122), "dns.svg"),
+    "fill-container": (rgb(129, 199, 132), "letter.svg"),
+    "disable-container": (rgb(100, 181, 246), "disable.svg"),
+    "password-container": (rgb(186, 104, 200), "password.svg"),
+    "meta-container": (rgb(255, 111, 111), "data.svg"),
+    "headings-container": (rgb(255, 183, 77), "heading.svg"),
+    "links-container": (rgb(255, 235, 59), "link.svg"),
+    "images-container": (rgb(129, 199, 132), "image.svg"),
+    "schema-container": (rgb(100, 181, 246), "schema.svg"),
+    "font-container": (rgb(255, 183, 77), "font.svg"),
+    "gradient-container": (rgb(129, 199, 132), "gradient.svg")
+);
+
+@function lighten($color, $amount) {
+    @return mix(white, $color, $amount * 100%);
+}
+
+@function darken($color, $amount) {
+    @return mix(black, $color, $amount * 100%);
+}
